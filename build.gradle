@@ -17,3 +17,50 @@ allprojects {
         jcenter()
     }
 }
+
+
+
+task startBackendServer {
+    dependsOn ':backend:appengineRun'
+
+    println 'Starting server.....'
+
+    doLast {
+        println 'Server started !'
+    }
+}
+
+task doMyTests {
+    evaluationDependsOn ':backend'
+    dependsOn 'startBackendServer'
+    dependsOn ':app:connectedAndroidTest'
+
+    doLast {
+        println 'Tests completed !'
+    }
+}
+
+task stopBackendServer {
+    dependsOn = ['doMyTests', ':backend:appengineStop']
+
+    doLast {
+        println 'Server stopped !'
+    }
+}
+
+task myTask {
+    dependsOn 'stopBackendServer'
+
+    println 'Initializing....'
+
+    doLast {
+        println 'Task completed Successfully....'
+    }
+}
+
+project(':backend') {
+
+    appengine {
+        daemon true
+    }
+}
