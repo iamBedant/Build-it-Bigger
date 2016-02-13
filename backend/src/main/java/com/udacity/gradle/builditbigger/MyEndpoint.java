@@ -6,31 +6,31 @@
 
 package com.udacity.gradle.builditbigger;
 
+import com.example.JokeProvider;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 
 import javax.inject.Named;
 
-/** An endpoint class we are exposing */
+/**
+ * An endpoint class we are exposing
+ */
 @Api(
-  name = "myApi",
-  version = "v1",
-  namespace = @ApiNamespace(
-    ownerDomain = "builditbigger.gradle.udacity.com",
-    ownerName = "builditbigger.gradle.udacity.com",
-    packagePath=""
-  )
+        name = "myApi",
+        version = "v1",
+        namespace = @ApiNamespace(
+                ownerDomain = "builditbigger.gradle.udacity.com",
+                ownerName = "builditbigger.gradle.udacity.com",
+                packagePath = ""
+        )
 )
 public class MyEndpoint {
-
-    /** A simple endpoint method that takes a name and says Hi back */
-    @ApiMethod(name = "sayHi")
-    public MyBean sayHi(@Named("name") String name) {
-        MyBean response = new MyBean();
-        response.setData("Hi, " + name);
-
+    @ApiMethod(name = "giveMeJoke")
+    public Joke giveMeJoke() {
+        JokeProvider jokeProvider = new JokeProvider();
+        Joke response = new Joke();
+        response.setData(jokeProvider.getJoke());
         return response;
     }
-
 }
